@@ -14,5 +14,13 @@ class MainActivity : AppCompatActivity() {
 
         binding.message.text = "Hello Kotlin102"
 
+        binding.enter.setOnClickListener {
+            binding.message.text = "What??"
+        }
+
+        binding.reset.setOnClickListener {
+            binding.message.text = "Hello Kotlin102"
+        }
+
     }
 }
