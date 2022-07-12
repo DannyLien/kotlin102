@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.activity.viewModels
 import com.tom.numberguess.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -22,10 +23,24 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
+        val viewModel : GuessViewModel by viewModels()
+        viewModel.min.observe(this,{
+            binding.contentMain.min.text = it.toString()
+        })
+
+        //Basic Activity get layout id
+        binding.contentMain.min.text = "1"
+        binding.contentMain.max.text = "100"
+        val number = binding.contentMain.number.text.toString()
+        binding.contentMain.guess.setOnClickListener {
+            Log.d(TAG, "onCreate: guessButton = ${number}")
+        }
+
         binding.fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
