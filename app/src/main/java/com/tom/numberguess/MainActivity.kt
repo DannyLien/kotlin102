@@ -8,6 +8,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Observer
 import com.tom.numberguess.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -23,17 +25,36 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-        val viewModel : GuessViewModel by viewModels()
-        viewModel.min.observe(this,{
-            binding.contentMain.min.text = it.toString()
-        })
 
         //Basic Activity get layout id
-        binding.contentMain.min.text = "1"
-        binding.contentMain.max.text = "100"
-        val number = binding.contentMain.number.text.toString()
+//        binding.contentMain.min.text = "1"
+//        binding.contentMain.max.text = "100"
+//        val number = binding.contentMain.number.text.toString()
+//        binding.contentMain.guess.setOnClickListener {
+//            Log.d(TAG, "onCreate: guessButton = ${number}")
+//        }
+
+        val viewModel: GuessViewModel by viewModels()
+        viewModel.min.observe(this, {
+            binding.contentMain.min.text = it.toString()
+        })
+        viewModel.max.observe(this, Observer {
+            binding.contentMain.max.text = it.toString()
+        })
+        viewModel.bingo.observe(this, Observer {
+            if (it) {
+                AlertDialog.Builder(this)
+                    .setTitle("Game result")
+                    .setMessage("You get it")
+                    .setPositiveButton("OK", null)
+                    .show()
+            }
+        })
         binding.contentMain.guess.setOnClickListener {
-            Log.d(TAG, "onCreate: guessButton = ${number}")
+//            viewModel.add()
+            val num = binding.contentMain.number.text.toString().toInt()
+            viewModel.guess(num)
+            binding.contentMain.number.text.clear()
         }
 
         binding.fab.setOnClickListener { view ->
