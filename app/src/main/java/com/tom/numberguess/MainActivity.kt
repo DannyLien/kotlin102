@@ -15,46 +15,47 @@ import com.tom.numberguess.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private val TAG: String = MainActivity::class.java.simpleName
     private lateinit var binding: ActivityMainBinding
+    val myMVVM: GuessViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
 
         Log.d(TAG, "onCreate: ")
 
-        setSupportActionBar(binding.toolbar)
-
-
-        //Basic Activity get layout id
-//        binding.contentMain.min.text = "1"
-//        binding.contentMain.max.text = "100"
-//        val number = binding.contentMain.number.text.toString()
-//        binding.contentMain.guess.setOnClickListener {
-//            Log.d(TAG, "onCreate: guessButton = ${number}")
-//        }
-
-        val viewModel: GuessViewModel by viewModels()
-        viewModel.min.observe(this, {
-            binding.contentMain.min.text = it.toString()
-        })
-        viewModel.max.observe(this, Observer {
-            binding.contentMain.max.text = it.toString()
-        })
-        viewModel.bingo.observe(this, Observer {
-            if (it) {
-                AlertDialog.Builder(this)
-                    .setTitle("Game result")
-                    .setMessage("You get it")
-                    .setPositiveButton("OK", null)
-                    .show()
+        ButtonNumberClear()
+        myMVVM.resultData.observe(this, Observer {
+            if (it == GuessViewModel.INIT) return@Observer
+            val message = when (it) {
+                GuessViewModel.BIGGER -> "BIGGER"
+                GuessViewModel.SMALLER -> "SMALLER"
+                else -> "You get it"
             }
+            AlertDialog.Builder(this)
+                .setTitle("Game Result")
+                .setMessage(message)
+                .setPositiveButton("OK", null)
+                .show()
+            ButtonNumberClear()
         })
         binding.contentMain.guess.setOnClickListener {
-//            viewModel.add()
-            val num = binding.contentMain.number.text.toString().toInt()
-            viewModel.guess(num)
-            binding.contentMain.number.text.clear()
+            val num = binding.contentMain.number.text.toString()
+            if (num.length == 0) {
+                AlertDialog.Builder(this)
+                    .setTitle("Error")
+                    .setMessage("Please Enter 1~10 Number")
+                    .setPositiveButton("OK", null)
+                    .show()
+            } else {
+                myMVVM.guess(num.toInt())
+            }
+
+        }
+        binding.contentMain.reset.setOnClickListener {
+            myMVVM.reset()
+            ButtonNumberClear()
         }
 
         binding.fab.setOnClickListener { view ->
@@ -62,6 +63,10 @@ class MainActivity : AppCompatActivity() {
                 .setAction("Action", null).show()
         }
 
+    }
+
+    private fun ButtonNumberClear() {
+        binding.contentMain.number.text.clear()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

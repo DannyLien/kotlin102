@@ -5,32 +5,38 @@ import androidx.lifecycle.ViewModel
 import java.util.*
 
 class GuessViewModel : ViewModel() {
-    var min = MutableLiveData<Int>()
-    var max = MutableLiveData<Int>()
-    val secret = Random().nextInt(100) + 1
-    var bingo = MutableLiveData<Boolean>()
+    companion object {
+        val BIGGER = 1
+        val SMALLER = -1
+        val BINGO = 0
+        val INIT = 9
+    }
+
+    var secret = Random().nextInt(10) + 1
+    var resultData = MutableLiveData<Int>()
 
     init {
-        min.value = 1
-        max.value = 100
-        bingo.value = false
         println("secret = ${secret}")
+        resultData.value = INIT
     }
 
+    var result = INIT
     fun guess(num: Int) {
-        if (num == secret) {
-            bingo.value = true
-        } else if (num > secret) {
-            max.value = num
+        if (num > secret) {
+            result = SMALLER
+        } else if (num < secret) {
+            result = BIGGER
         } else {
-            min.value = num
+            result = BINGO
         }
+        resultData.value = result
     }
 
-    fun add() {
-        var n = min.value
-        n?.plus(1)
-        min.value = n
+    fun reset() {
+        resultData.value = INIT
+        secret = Random().nextInt(10) + 1
+        println("secret = ${secret}")
+
     }
 
 }
