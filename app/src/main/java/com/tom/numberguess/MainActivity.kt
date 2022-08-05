@@ -1,5 +1,6 @@
 package com.tom.numberguess
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import com.google.android.material.snackbar.Snackbar
@@ -59,8 +60,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            val intent = Intent(this, ResultActivity::class.java).putExtras(
+                Bundle().apply {
+                    putInt("TEST", 123)
+                    putString("NAME", "Danny")
+                }
+            )
+            startActivity(intent)
         }
 
     }
