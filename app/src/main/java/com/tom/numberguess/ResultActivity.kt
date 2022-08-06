@@ -21,5 +21,11 @@ class ResultActivity : AppCompatActivity() {
         binding.result.text = result.toString()
         binding.name.text = name
 
+        binding.button.setOnClickListener {
+            intent.putExtra("ABC", 456)
+            setResult(RESULT_OK, intent)
+            finish()
+        }
+
     }
 }

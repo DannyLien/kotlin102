@@ -3,20 +3,26 @@ package com.tom.numberguess
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import com.tom.numberguess.databinding.ActivityMainBinding
+import kotlin.math.log
 
 class MainActivity : AppCompatActivity() {
     private val TAG: String = MainActivity::class.java.simpleName
     private lateinit var binding: ActivityMainBinding
     val myMVVM: GuessViewModel by viewModels()
+    val goResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        Log.d(TAG, "CallBackReault = ${it.data?.getIntExtra("ABC", -1)} ")
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,7 +72,8 @@ class MainActivity : AppCompatActivity() {
                     putString("NAME", "Danny")
                 }
             )
-            startActivity(intent)
+//            startActivity(intent)
+            goResult.launch(intent)
         }
 
     }
