@@ -34,10 +34,10 @@ class MainActivity : AppCompatActivity() {
 
         ButtonNumberClear()
         myMVVM.resultData.observe(this, Observer {
-            if (it == GuessViewModel.INIT) return@Observer
+            if (it == GameStatus.INIT) return@Observer
             val message = when (it) {
-                GuessViewModel.BIGGER -> "BIGGER"
-                GuessViewModel.SMALLER -> "SMALLER"
+                GameStatus.BIGGER -> "BIGGER"
+                GameStatus.SMALLER -> "SMALLER"
                 else -> "You get it"
             }
             AlertDialog.Builder(this)

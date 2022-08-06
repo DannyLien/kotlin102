@@ -5,38 +5,36 @@ import androidx.lifecycle.ViewModel
 import java.util.*
 
 class GuessViewModel : ViewModel() {
-    companion object {
-        val BIGGER = 1
-        val SMALLER = -1
-        val BINGO = 0
-        val INIT = 9
-    }
-
     var secret = Random().nextInt(10) + 1
-    var resultData = MutableLiveData<Int>()
+    var resultData = MutableLiveData<GameStatus>()
 
     init {
         println("secret = ${secret}")
-        resultData.value = INIT
+        resultData.value = GameStatus.INIT
     }
 
-    var result = INIT
+    var result = GameStatus.INIT
     fun guess(num: Int) {
         if (num > secret) {
-            result = SMALLER
+            result = GameStatus.SMALLER
         } else if (num < secret) {
-            result = BIGGER
+            result = GameStatus.BIGGER
         } else {
-            result = BINGO
+            result = GameStatus.BINGO
         }
         resultData.value = result
     }
 
     fun reset() {
-        resultData.value = INIT
+        resultData.value = GameStatus.INIT
         secret = Random().nextInt(10) + 1
         println("secret = ${secret}")
 
     }
 
 }
+
+enum class GameStatus {
+    INIT, SMALLER, BIGGER, BINGO
+}
+
