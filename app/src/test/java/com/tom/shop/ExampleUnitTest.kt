@@ -1,4 +1,4 @@
-package com.tom.numberguess
+package com.tom.shop
 
 import org.junit.Test
 
