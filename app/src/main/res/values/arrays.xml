@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="cities">
+        <item>"台北市"</item>
+        <item>"新北市"</item>
+        <item>"桃園市"</item>
+        <item>"新竹市"</item>
+        <item>"台中市"</item>
+        <item>"嘉義市"</item>
+        <item>"彰化市"</item>
+        <item>"雲林市"</item>
+        <item>"南投市"</item>
+        <item>"台南市"</item>
+        <item>"高雄市"</item>
+        <item>"屏東市"</item>
+        <item>"宜蘭市"</item>
+        <item>"花蓮市"</item>
+        <item>"台東市"</item>
+        <item>"澎湖市"</item>
+        <item>"金門市"</item>
+        <item>"馬祖市"</item>
+    </string-array>
+
+</resources>
