@@ -7,10 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tom.shop.databinding.FragmentFirstBinding
+import kotlinx.coroutines.GlobalScope
 import java.net.URL
 import kotlin.concurrent.thread
 
@@ -40,31 +42,31 @@ class FirstFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         cities = requireContext().resources.getStringArray(R.array.cities)
 
-        thread {
-            val json = URL("https://fakestoreapi.com/products").readText()
-            Log.d(TAG, "onViewCreated: json = $json")
-
-        }
-
         binding.recycler.layoutManager = LinearLayoutManager(context)
         binding.recycler.setHasFixedSize(true)
-        binding.recycler.adapter = object : RecyclerView.Adapter<CityViewHolder>() {
-            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CityViewHolder {
-                val view = LayoutInflater.from(context).inflate(
-                    R.layout.cow_cites, parent, false
-                )
-                return CityViewHolder(view)
-            }
 
-            override fun onBindViewHolder(holder: CityViewHolder, position: Int) {
-                holder.citeName.text = cities[position]
-            }
-
-            override fun getItemCount(): Int {
-                return cities.size
-            }
-
+        val myProductViewModel: ProductViewModel by viewModels()
+        myProductViewModel.products.observe(viewLifecycleOwner) {
+            binding.recycler.adapter = ProductAdapter(it)
         }
+
+//        binding.recycler.adapter = object : RecyclerView.Adapter<CityViewHolder>() {
+//            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CityViewHolder {
+//                val view = LayoutInflater.from(context).inflate(
+//                    R.layout.cow_cites, parent, false
+//                )
+//                return CityViewHolder(view)
+//            }
+//
+//            override fun onBindViewHolder(holder: CityViewHolder, position: Int) {
+//                holder.citeName.text = cities[position]
+//            }
+//
+//            override fun getItemCount(): Int {
+//                return cities.size
+//            }
+//
+//        }
 
         binding.buttonFirst.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
@@ -78,9 +80,9 @@ class FirstFragment : Fragment() {
 
 //    class CityAdapter():RecyclerView.Adapter<CityViewHolder>(){}
 
-    class CityViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val citeName: TextView = itemView.findViewById(R.id.cityName)
-    }
+//    class CityViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+//        val citeName: TextView = itemView.findViewById(R.id.cityName)
+//    }
 
 }
 
