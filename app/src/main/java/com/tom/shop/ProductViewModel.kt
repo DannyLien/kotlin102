@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.tom.shop.db.Product
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.net.URL
@@ -28,12 +29,12 @@ class ProductViewModel : ViewModel() {
 
 }
 
-data class Product(
-    val id: Int,
-    val title: String,
-    val price: Float,
-    val description: String,
-    val image: String
-)
+//data class Product(
+//    val id: Int,
+//    val title: String,
+//    val price: Float,
+//    val description: String,
+//    val image: String
+//)
 
 

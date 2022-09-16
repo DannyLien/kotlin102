@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.tom.shop.db.Product
 import kotlin.coroutines.coroutineContext
 
 class ProductAdapter(val products: List<Product>) : RecyclerView.Adapter<ProductViewHolder>() {
